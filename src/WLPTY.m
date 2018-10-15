@@ -73,15 +73,15 @@
         // remove username from ssh
         if (range.length > 0 && ![addr containsString:@"/"]) {
             // user don't want auto login
-            fmt = @"/usr/bin/ssh -4 -o Protocol=2,1 -p %2$@ -x %1$@";
+            fmt = @"/usr/local/bin/ssh -4 -o Protocol=2,1 -p %2$@ -x %1$@";
         } else if(range.length > 0 && [addr containsString:@"/"]) {
             // user wants auto-login
             // remove userid "/USERID" from the end
             addr = [addr substringFromIndex:range.location + range.length];
             addr = [addr substringToIndex:[addr rangeOfString:@"/"].location];
-            fmt = @"/usr/bin/ssh -4 -o Protocol=2,1 -p %2$@ -x bbs@%1$@";
+            fmt = @"/usr/local/bin/ssh -4 -o Protocol=2,1 -p %2$@ -x bbs@%1$@";
         } else {
-            fmt = @"/usr/bin/ssh -4 -o Protocol=2,1 -p %2$@ -x %1$@";
+            fmt = @"/usr/local/bin/ssh -4 -o Protocol=2,1 -p %2$@ -x %1$@";
         }
     } else if (websock) {
         port = [NSString stringWithFormat:@"%d", arc4random_uniform(99999)];
@@ -98,12 +98,12 @@
         if (range.length > 0)
             addr = [addr substringFromIndex:range.location + range.length];
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        if (![fileManager fileExistsAtPath:@"/usr/bin/telnet"]) {
+        if (![fileManager fileExistsAtPath:@"/usr/local/bin/telnet"]) {
             NSString *filePath = [[NSBundle mainBundle] pathForResource:@"telnet" ofType:@""];
             fmt = [NSString stringWithFormat:@"%@%@", filePath, @" -4 -8 %@ -%@"];
         } else {
             // "-" before the port number forces the initial option negotiation
-            fmt = @"/usr/bin/telnet -4 -8 %@ -%@";
+            fmt = @"/usr/local/bin/telnet -4 -8 %@ -%@";
         }
     }
     
